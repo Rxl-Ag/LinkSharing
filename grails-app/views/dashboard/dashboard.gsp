@@ -128,13 +128,13 @@
             <a class="navbar-brand" href="#" style="color: white">Link Sharing</a>
         </div>
         <div class="container col-lg-6">
-            <span>
+            <span style="margin-left: 250px">
                 <i class="fa fa-search icon"></i>
                 <g:form controller="search" action="search">
                     <input type="search" name="searchElement" placeholder="Search..." class="form-control"/>
                 </g:form>
             </span>
-            <a href="#" class="icn" style=" margin-left: 200px;">
+            <a href="#" class="icn">
                 <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-chat-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('Modal-topic').style.display='block'">
                     <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
                 </svg>
@@ -174,9 +174,9 @@
                     <div class="dropdown-menu">
                         <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                         <g:if test="${test.admin}">
-                        <g:link class="dropdown-item">User</g:link>
-                        <g:link controller="topic" action="topicshow"  class="dropdown-item" href="#">Topics</g:link>
-                        <a class="dropdown-item" href="#">Posts</a>
+                            <g:link class="dropdown-item">User</g:link>
+                            <g:link controller="topic" action="topicshow"  class="dropdown-item" href="#">Topics</g:link>
+                            <g:link class="dropdown-item" href="#">Posts</g:link>
                         </g:if>
                         <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
                     </div>
@@ -198,9 +198,12 @@
                             <div class="row mt-4">
                                 <div class="col-md-3">
                                     <h6 class="text-muted">Subcriptions</h6>
+                                    <b>${subscount}</b>
+
                                 </div>
                                 <div class="col-md-9">
                                     <h6 class="text-muted">Topics</h6>
+                                    <b>${topiccount}</b>
                                 </div>
                             </div>
                         </div>
@@ -360,8 +363,8 @@
                                 <div class="edit-topic">
 
                                     <input type="text" name="edit" style="margin-right: 5px; width: 30%;" id="edit">
-                                    <input type="button" value="save" class="submit" onclick="" style="margin-right: 4px;">
-                                    <input type="button" value="cancel" class="submit" onclick="edit2()" style="margin-right: 4px;">
+                                    <input type="button" value="save" class="submit" style="margin-right: 4px;">
+                                    <input type="button" value="cancel" class="submit" style="margin-right: 4px;">
 
                                 </div>
                                 <div class="row">
@@ -373,6 +376,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <h6 class="text-muted">Posts</h6>
+
                                     </div>
                                 </div>
                                 <div class="row">
@@ -391,7 +395,7 @@
                             <div class="container spacing">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <g:form controller="subscription" action="changeSeriousness" >
+                                        <g:form>
                                             <select class="box" id="seriousness" name="serious" onchange="this.form.submit()">
                                                     <option value="serious" selected>Serious</option>
                                                     <option value="very serious">Very Serious</option>
@@ -402,7 +406,7 @@
                                     </div>
                                     <div class="col-md-5">
                                         <div class="dropdown">
-                                            <g:form controller="topic" action="changePrivacy" >
+                                            <g:form>
                                                <select class="box" id="privacy" name="privacy"  onchange="this.form.submit()">
                                                         <option value="public" selected>Public</option>
                                                         <option value="private">Private</option>
@@ -428,7 +432,7 @@
                                         </a>
                                     </div>
                                     <div class="col-md-1">
-                                        <g:link controller="topic" action="deletetopic" >
+                                        <g:link >
                                             <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -487,7 +491,7 @@
                                             </a>
                                         </div>
                                         <div class="col-md-1">
-                                            <g:link controller="topic" action="deletetopic" >
+                                            <g:link>
                                                 <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
                                                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
@@ -584,15 +588,15 @@
     <div id="Modal-topic" class="modal">
         <div class="modal-content">
             <div class="mh">Create Topic</div>
-            <g:form controller="topic" action="createtopic" params="[id: test.id]">
+            <g:form controller="topic" action="createtopic" params="[id:test.id]">
                 <div class="container" style="padding:10px">
                     <div class="form-group">
-                        <label for="topicname">Name:</label>
+                        <label for="topicname">Name</label>
                         <g:textField name="topicname" class="input" id="topicname"></g:textField>
                     </div>
                     <br><br>
                     <div class="form-group">
-                        <lable for="topicv">Visibility:</lable>
+                        <lable for="topicv">Visibility</lable>
                         <select class="box"  name="topicv" >
                             <option value="Public" selected>Public</option>
                             <option value="Private">Private</option>
@@ -650,7 +654,7 @@
     <div id="Modal-invite" class="modal">
         <div class="modal-content">
             <div class="mh">Send Invitation</div>
-            <g:form controller="subscription" action="invite" params="[id: test.id]">
+            <g:form controller="subscription" action="invite">
                 <div class="container" style="padding:10px">
                     <label for="email">Email</label>
                     <input type="email" name="email" class="input" id="email"><br><br><br>

@@ -376,7 +376,7 @@
                     </div>
                 </nav>
                 <div class="login-form">
-                    <g:form controller="profile" action="updateprofile" >
+                    <g:form controller="profile" action="updateprofile" params="[uid:test.id]">
                         <div class="form-group f1" style="margin-top: 10px">
                             <div class="form-group">
                                 <label for="firstname">First Name</label>
@@ -404,7 +404,7 @@
                     </div>
                 </nav>
                 <div class="login-form">
-                <g:form controller="profile" action="updatepassword" >
+                <g:form controller="profile" action="updatepassword"  params="[uid:test.id]">
                     <div class="form-group f1" style="margin-top: 10px">
                         <div class="form-group">
                             <label for="password">Password</label>

@@ -2,12 +2,12 @@ package com.rxlogix
 
 class Subscription {
 
-    Topic topic
+    Topic topics
     Users createdBy
 //    Date dateCreate
     Seriousness seriousness
 
-    static belongsTo = [createdBy:Users,topic:Topic]
+    static belongsTo = [createdBy:Users,topics:Topic]
 
     static constraints = {
         seriousness(nullable: false)

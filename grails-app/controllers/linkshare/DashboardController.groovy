@@ -1,5 +1,7 @@
 package linkshare
 
+import com.rxlogix.Subscription
+import com.rxlogix.Topic
 import com.rxlogix.Users
 
 class DashboardController {
@@ -7,7 +9,9 @@ class DashboardController {
     def index() { }
     def dash(){
         Users test= session.getAttribute("usr")
-        render(view: "dashboard", model: [test:test])
+        def topiccount = Topic.countByCreatedBy(test)
+        def subscount = Subscription.countByCreatedBy(test)
+        render(view: "dashboard", model: [test:test, topiccount:topiccount, subscount:subscount])
     }
 
 }

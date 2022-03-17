@@ -131,7 +131,7 @@
 <body>
 <nav class="navbar sticky-top nav1">
     <div class="container col-lg-8">
-        <g:link class="navbar-brand" style="color: white" controller="dashboard" action="dash" params="[uname:test.username]">LinkSharing</g:link>
+        <g:link class="navbar-brand" style="color: white" controller="dashboard" action="dash">LinkSharing</g:link>
     </div>
     <div class="container col-lg-4">
         <span>
@@ -169,11 +169,11 @@
                 </button>
                 <div class="dropdown-menu">
                     <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
-%{--                    <g:if test="${test.admin}">--}%
+                    <g:if test="${test.admin}">
                         <g:link class="dropdown-item">User</g:link>
                         <a class="dropdown-item" href="#">Topics</a>
                         <a class="dropdown-item" href="#">Posts</a>
-%{--                    </g:if>--}%
+                    </g:if>
                     <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
                 </div>
             </div>
