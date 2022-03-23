@@ -130,7 +130,7 @@ body {
                                     <a href="#" class="fa fa-google"></a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">View Post</a>
+                                    <g:link controller="resources" action="postview">View Post</g:link>
                                 </div>
                             </div>
                         </div>

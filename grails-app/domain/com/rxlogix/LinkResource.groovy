@@ -3,9 +3,9 @@ package com.rxlogix
 class LinkResource {
 
     String url
-    static hasMany = [resource:Resources]
+    static belongsTo = [resource:Resources]
 
     static constraints = {
-        url(blank: false, url: true)
+        url(blank: false)
     }
 }

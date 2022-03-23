@@ -4,7 +4,7 @@ class Subscription {
 
     Topic topics
     Users createdBy
-//    Date dateCreate
+    Date datecreate
     Seriousness seriousness
 
     static belongsTo = [createdBy:Users,topics:Topic]

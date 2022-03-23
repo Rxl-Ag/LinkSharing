@@ -34,7 +34,7 @@ class LoginController {
             {
                 if (params.get("password")==params.get("confirmpassword"))
                 {
-                    Users test = new Users(firstname: params.firstname, lastname: params.lastname, email: params.email, username: params.username, password: params.password, confirmpassword: params.confirmpassword, admin: false, active: true)
+                    Users test = new Users(firstname: params.firstname, lastname: params.lastname, email: params.email, username: params.username, password: params.password, confirmpassword: params.confirmpassword, admin: false, active: true, datecreate: new Date(), lastupdate: new Date())
                     test.save flush: true
                     flash.message = "user created!"
                     redirect(action : "login")

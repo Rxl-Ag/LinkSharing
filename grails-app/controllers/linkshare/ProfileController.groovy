@@ -22,14 +22,23 @@ class ProfileController {
     }
 
     def updatepassword(){
-        Users user = Users.findById(params.uid)
-        user.properties = params
 
-        if(user.save(flush:true)){
-            flash.message= "Password updated"
+        if (params.get("password")!=params.get("confirmpassword"))
+        {
+            flash.message = "password and confirm password Do not match!"
+            redirect(action : "editprofile")
         }
-        session.setAttribute("usr", user)
-        redirect(action:"editprofile")
+
+        else {
+            Users user = Users.findById(params.uid)
+            user.properties = params
+
+            if (user.save(flush: true)) {
+                flash.message = "Password updated"
+            }
+            session.setAttribute("usr", user)
+            redirect(action: "editprofile")
+        }
     }
 
 

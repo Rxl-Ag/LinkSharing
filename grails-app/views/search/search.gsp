@@ -211,7 +211,7 @@
                                 <a href="#">50</a>
                             </div>
                             <div class="col-md-3">
-                                <h6 class="text-muted">post</h6>
+                                <h6 class="text-muted">resources</h6>
                                 <a href="#">30</a>
                             </div>
                         </div>
@@ -314,7 +314,6 @@
                         </div>
                     </div>
             </div>
-
         </div>
         <div class="col-md-1">
 
