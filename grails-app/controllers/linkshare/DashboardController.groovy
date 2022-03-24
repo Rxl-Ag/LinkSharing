@@ -8,8 +8,13 @@ class DashboardController {
 
     def index() { }
     def dash(){
-        Users test= session.getAttribute("usr")
-        render(view: "dashboard", model: [test:test])
+        Users user= session.getAttribute("usr")
+        if(user) {
+            render(view: "dashboard", model: [user: user])
+        }
+        else {
+            render(view: "/index")
+        }
     }
 
 

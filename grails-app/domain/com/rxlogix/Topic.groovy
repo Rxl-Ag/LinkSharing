@@ -4,8 +4,8 @@ class Topic {
     String topicName;
     Users createdBy;
     Visibility visibility
-    Date datecreate
-    Date lastupdate
+    Date dateCreated
+    Date lastUpdated
     static belongsTo = [createdBy: Users]
     static hasMany = [subscriptions: Subscription, resources: Resources]
 

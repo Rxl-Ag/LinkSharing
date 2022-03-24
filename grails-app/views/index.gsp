@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -227,7 +227,7 @@ body {
                 </g:form>
             </div>
             <div class="login-form">
-                <g:form name="myForm" url="[controller:'login',action:'register']">
+                <g:uploadForm name="myForm" url="[controller:'login',action:'register']">
                     <h2 class="text-center">Register</h2>
                     <div class="form-group">
                         <label for="firstname">First Name</label>
@@ -254,9 +254,13 @@ body {
                         <g:passwordField required="required" name="confirmpassword" id="confirmpassword"/>
                     </div>
                     <div class="form-group">
+                        <label for="userImage">Upload Image</label>
+                        <input type="file" name="userImage" id="userImage">
+                    </div>
+                    <div class="form-group">
                         <g:submitButton name="Submit" id="submit" value="Register"/>
                     </div>
-                </g:form>
+                </g:uploadForm>
             </div>
         </div>
 

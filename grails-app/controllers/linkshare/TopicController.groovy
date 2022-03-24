@@ -11,31 +11,40 @@ class TopicController {
     def index() { }
     def topicshow(){
         Users user = session.getAttribute("usr")
-        render(view: "topic", model: [test:user])
+        Topic topic = Topic.findById(params.tid)
+        render(view: "topic", model: [user:user,topic:topic])
     }
     def createtopic(){
+        Users user = session.getAttribute("usr")
+        if(Topic.findByTopicNameAndCreatedBy(params.topicname,user)) {
+            flash.message = "Topic name already exist"
+        }
+        else {
+            Topic.Visibility v = params.topicv
+            Topic topic = new Topic(topicName: params.topicname, visibility: v, createdBy: params.id)
+            topic.save flush: true
+            flash.message = "Topic Created"
 
-        Topic.Visibility v =  params.topicv
-        Topic t=new Topic(topicName: params.topicname, visibility: v, createdBy: params.id, datecreate: new Date(), lastupdate: new Date())
-        t.save flush: true
-
-        Subscription.Seriousness s = Subscription.Seriousness.VerySerious
-        Subscription subs = new Subscription(topics: t.id, createdBy: params.id, seriousness: s, datecreate: new Date())
-        subs.save(flush:true)
+            Subscription.Seriousness s = Subscription.Seriousness.VerySerious
+            Subscription subs = new Subscription(topics: topic.id, createdBy: params.id, seriousness: s)
+            subs.save(flush: true)
+        }
 
         redirect(controller: 'dashboard', action: "dash")
     }
-    def createresource(){
-        Resources re = new Resources(description: params.description, createdBy: params.id, dateCreate: new Date(), lastUpdate: new Date(), topics: params.topicname)
-//        re.save(flush:true, failOnError:true)
-
-        LinkResource lr = new LinkResource(url: params.url, resource: re )
-        println(lr.url)
-        lr.save(flush:true, failOnError:true)
-
-        redirect(controller: 'dashboard', action: "dash")
-
-
+    def rating(){
+        println("hello")
+        redirect(controller: "resources",action: "postview")
     }
+
+    def deletetopic(){
+        Users user= session.getAttribute("usr")
+        Topic topic= Topic.findById(params.id)
+//        user.removeFromTopics(topic)
+        topic.delete(flush: true)
+
+        redirect(controller: "dashboard", action: "dash")
+    }
+
 
 }

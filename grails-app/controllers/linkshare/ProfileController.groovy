@@ -7,7 +7,7 @@ class ProfileController {
     def index() { }
     def editprofile(){
         Users user  = session.getAttribute("usr")
-        render(view: "editprofile", model: [test:user])
+        render(view: "editprofile", model: [user:user])
     }
     def updateprofile(){
 
@@ -43,6 +43,8 @@ class ProfileController {
 
 
     def userprofile(){
-        render (view: "userprofile")
+        Users user = session.getAttribute("usr")
+        Users user1 = Users.findById(params.uid)
+        render (view: "userprofile", model: [user:user, user1:user1])
     }
 }

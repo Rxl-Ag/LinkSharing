@@ -10,8 +10,9 @@ class Users {
     String lastname
     Boolean admin
     Boolean active
-    Date datecreated
-    Date lastupdated
+    Date dateCreated
+    Date lastUpdated
+    String userImage
 
     static hasMany = [topics:Topic, subs:Subscription, resource:Resources, readingitem:ReadingItem]
 
@@ -24,5 +25,7 @@ class Users {
         admin(nullable: true)
         active(nullable: true)
         confirmpassword(blank: false)
+//        userImage(blank: true, nullable: true, maxSize:1073741824)
+        userImage nullable: true
     }
 }

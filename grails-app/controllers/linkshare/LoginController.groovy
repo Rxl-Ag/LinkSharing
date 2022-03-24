@@ -28,31 +28,36 @@ class LoginController {
         }
     }
     def register() {
-        if(!Users.findByEmail(params.email))
-        {
-            if(!Users.findByUsername(params.username))
-            {
-                if (params.get("password")==params.get("confirmpassword"))
-                {
-                    Users test = new Users(firstname: params.firstname, lastname: params.lastname, email: params.email, username: params.username, password: params.password, confirmpassword: params.confirmpassword, admin: false, active: true, datecreate: new Date(), lastupdate: new Date())
+        if (!Users.findByEmail(params.email)) {
+            if (!Users.findByUsername(params.username)) {
+                if (params.get("password") == params.get("confirmpassword")) {
+                    def file = request.getFile("userImage")
+                    String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${params.username}.png"
+                    String path = "${params.username}.png"
+                        if (file && !file.empty) {
+                            file.transferTo(new File(filepath))
+
+                        }
+                        else {
+                            path=null
+                        }
+                    Users test = new Users(firstname: params.firstname, lastname: params.lastname, email: params.email, username: params.username, password: params.password, confirmpassword: params.confirmpassword, admin: false, active: true, userImage: path)
+
                     test.save flush: true
                     flash.message = "user created!"
-                    redirect(action : "login")
-                }
-                else{
+                    redirect(action: "login")
+                } else {
                     flash.message = "password and confirm password Do not match!"
-                    redirect(action : "login")
+                    redirect(action: "login")
                 }
 
-            }
-            else{
+            } else {
                 flash.message = "UserName Already Exists!"
-                redirect(action : "login")
+                redirect(action: "login")
             }
-        }
-        else{
+        } else {
             flash.message = "Email already Exists"
-            redirect(action : "login")
+            redirect(action: "login")
         }
     }
     def logout()
