@@ -127,6 +127,7 @@
     }
     </style>
 
+
 </head>
 <body>
 <nav class="navbar sticky-top nav1">
@@ -171,7 +172,6 @@
                     <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                     <g:if test="${user.admin}">
                         <g:link class="dropdown-item">User</g:link>
-                        <a class="dropdown-item" href="#">Topics</a>
                         <a class="dropdown-item" href="#">Posts</a>
                     </g:if>
                     <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
@@ -314,7 +314,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
-                            <a href="#">${val.topics.topicName}</a>
+                            <g:link controller="topic" action="topicshow" params="[tid: val.topics.id]">${val.topics.topicName}</g:link>
                         </div>
                         <h6 class="ml-1">${val.description}</h6>
                         <div class="row">
@@ -328,10 +328,8 @@
                                     <a href= "https://${LinkResource.findByResource(val).url}" target="_blank" class="cls" >View Full Site </a>
                                 </g:if>
                                 <g:else>
-                                    <a href="https:///home/anurag/grailsapp/linkshare/grails-app/assets/images/document/aadhar.pdf"
-                                       target="_blank" class="cls">Download</a>
+                                    <g:link controller="resources" action="download" params="[id:val.createdBy.id]">Download</g:link>
                                 </g:else>
-                                <g:link class="cls" >Mark as Read</g:link>
                                 <g:link class="cls" >View Post</g:link>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 package linkshare
 
 import com.rxlogix.LinkResource
+import com.rxlogix.ResourceRating
 import com.rxlogix.Resources
 import com.rxlogix.Subscription
 import com.rxlogix.Topic
@@ -33,16 +34,24 @@ class TopicController {
         redirect(controller: 'dashboard', action: "dash")
     }
     def rating(){
-        println("hello")
-        redirect(controller: "resources",action: "postview")
+        Resources rating = Resources.findById(params.rid)
+        Users user =session.getAttribute("usr")
+        
+//        redirect(controller: "resources",action: "postview")
     }
 
     def deletetopic(){
         Users user= session.getAttribute("usr")
         Topic topic= Topic.findById(params.id)
-//        user.removeFromTopics(topic)
         topic.delete(flush: true)
 
+        redirect(controller: "dashboard", action: "dash")
+    }
+    def editname(){
+        Users user = session.getAttribute("usr")
+        Topic topic = Topic.findById(params.tid)
+        topic.topicName=params.topicname
+        topic.save(flush:true,failOnError:true)
         redirect(controller: "dashboard", action: "dash")
     }
 

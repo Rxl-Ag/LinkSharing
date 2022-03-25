@@ -41,7 +41,8 @@ class ResourcesController {
 
     def postview(){
         Users user= session.getAttribute("usr")
-        render(view: "post", model: [user:user])
+        Resources resource = Resources.findById(params.id)
+        render(view: "post", model: [user:user, resource: resource])
     }
     def isread(){
         Users user = session.getAttribute("usr")
@@ -52,9 +53,11 @@ class ResourcesController {
     }
 
     def download(){
+        println(params.id)
         Resources resource = Resources.findById(params.id)
-        String path = Document.findByResource(resource).filePath
-        def filePath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/document/aadhar.pdf"
+        Users user = Users.findById(params.id)
+//        String path = Document.findByResource(resource).filePath
+        def filePath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/document/${user.id}.pdf"
         def file = new File(filePath)
         if (file.exists()){
             response.setContentType("application/octet-stream")

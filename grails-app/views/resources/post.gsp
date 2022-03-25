@@ -244,31 +244,29 @@
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-4 mt-3" >
-                                <h6>Anurag Gupta</h6>
-                                <h6>@Anurag</h6>
+                                <h6>${resource.createdBy.firstname} ${resource.createdBy.lastname}</h6>
+                                <h6>@${resource.createdBy.username}</h6>
                             </div>
                             <div class="col-md-3 mt-3">
                             </div>
                             <div class="col-md-5 mt-3">
-                                <h6>Grails</h6>
+                                <h6>${resource.topics.topicName}</h6>
                             </div>
                         </div>
                         <div class="container d-flex justify-content-center mt-200">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="stars">
-                                        <g:form controller="topic" action="rating">
-                                            <input class="star star-5" id="star-5" type="radio" name="star" onclick="callAjax()" value="5"/>
+                                            <input class="star star-5" id="star-5" type="radio" name="star" onclick="callAjax(${resource.id})" value="5"/>
                                             <label class="star star-5" for="star-5" ></label>
-                                            <input class="star star-4" id="star-4" type="radio" name="star" />
+                                            <input class="star star-4" id="star-4" type="radio" name="star" onclick="callAjax(${resource.id})" value="4"/>
                                             <label class="star star-4" for="star-4"></label>
-                                            <input class="star star-3" id="star-3" type="radio" name="star" />
+                                            <input class="star star-3" id="star-3" type="radio" name="star" onclick="callAjax(${resource.id})" value="3"/>
                                             <label class="star star-3" for="star-3"></label>
-                                            <input class="star star-2" id="star-2" type="radio" name="star" />
+                                            <input class="star star-2" id="star-2" type="radio" name="star" onclick="callAjax(${resource.id})" value="2"/>
                                             <label class="star star-2" for="star-2"></label>
-                                            <input class="star star-1" id="star-1" type="radio" name="star" />
+                                            <input class="star star-1" id="star-1" type="radio" name="star" onclick="callAjax(${resource.id})" value="1"/>
                                             <label class="star star-1" for="star-1"></label>
-                                        </g:form>
                                     </div>
                                 </div>
                             </div>
@@ -306,30 +304,25 @@
 
 
 
-<g:javascript>
-    $(document).ready(function(){
-        $.ajax({
-            url:'/topic/rating',
-            success: function (){
-                alert('ajax')
-            }
-        })
-    })
-    %{--function callAjax(){--}%
-    %{--    $(document).ready(function() {--}%
-    %{--        var URL = "${createLink(controller:'topic',action:'rating')}";--}%
-    %{--        var rat = $("input[name='star']:checked").val();--}%
-    %{--        console.log(rat)--}%
-    %{--        $.ajax({--}%
-    %{--            type:"GET",--}%
-    %{--            url: URL,--}%
-    %{--            dataType: 'json',--}%
-    %{--            data: {"rating": rat},--}%
-    %{--        });--}%
-    %{--    });--}%
-    %{--}--}%
-</g:javascript>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    function callAjax(id){
+        $(document).ready(function() {
+            var URL = "${createLink(controller:'topic',action:'rating')}";
+            var rat = $("input[name='star']:checked").val();
+            var resourceid = id
+            $.ajax({
+                type:"GET",
+                url: URL,
+                dataType: 'json',
+                data: {"rating": rat,"rid":resourceid},
+                success: function(resp){
+                    console.log(resp);
+                }
+
+            });
+        });
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

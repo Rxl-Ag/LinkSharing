@@ -36,6 +36,13 @@
         height: 400px;
         overflow: scroll;
     }
+    .d3 {
+        border: 2px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+        height: 1000px;
+        overflow: scroll;
+    }
     .spacing {
         margin-top: 20px;
     }
@@ -183,8 +190,8 @@
                         <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                         <g:if test="${user.admin}">
                             <g:link controller="admin" action="users" class="dropdown-item">Users</g:link>
-                            <g:link controller="topic" action="topicshow"  class="dropdown-item" href="#">Topics</g:link>
-                            <g:link class="dropdown-item" href="#">Posts</g:link>
+%{--                            <g:link class="dropdown-item" href="#">Topics</g:link>--}%
+%{--                            <g:link class="dropdown-item" href="#">Posts</g:link>--}%
                         </g:if>
                         <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
                     </div>
@@ -224,7 +231,7 @@
                         </div>
                         <div class="col-md-9">
                             <h3>${user.firstname} ${user.lastname}</h3>
-                            <g:link controller="profile" action="userprofile" params="[uid:user.id]"><h5 class="fst-italic">@${user.firstname}</h5></g:link>
+                            <g:link controller="profile" action="userprofile" params="[uid:user.id]"><h5 class="fst-italic">@${user.username}</h5></g:link>
                             <div class="row mt-4">
                                 <div class="col-md-3">
                                     <h6 class="text-muted">Subcriptions</h6>
@@ -261,16 +268,18 @@
                                 <div class="col-md-9">
                                     <div class="row mt-4">
                                         <g:link controller="topic" action="topicshow" params="[tid:val.topics.id]">${val.topics.topicName}</g:link>
-                                        <div class="edittopic">
-                                            <input type="text" name="edit" style="margin-right: 5px; width: 30%;" id="">
-                                            <input type="button" value="save" class="submit" style="margin-right: 4px;">
-                                            <input type="button" value="cancel" class="submit" style="margin-right: 4px;">
-                                        </div>
+                                        <g:form controller="topic" action="editname" params="[tid:val.topics.id]">
+                                            <div id="${val.id}" class="edittopic">
+                                                <input type="text" name="topicname" style="margin-right: 5px; width: 30%;">
+                                                <g:submitButton name="Submit" value="save"/>
+                                                <input onclick="cancel('${val.id}')" type="button" value="cancel" class="submit" style="margin-right: 4px;">
+                                            </div>
+                                        </g:form>
 
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col-md-5">
-                                            <h6>@${val.createdBy.username}</h6>
+                                            <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">@${val.createdBy.username}</g:link>
                                         </div>
                                         <div class="col-md-4">
                                             <h6 class="text-muted">Subscriptions</h6>
@@ -325,14 +334,14 @@
                                             </g:form>
                                         </div>
                                         <div class="col-md-1">
-                                            <a href="#">
+                                            <a href="#" onclick="mail()">
                                                 <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-envelope-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0  1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
                                                 </svg>
                                             </a>
                                         </div>
                                         <div class="col-md-1">
-                                            <a href="#" id="edittopic">
+                                            <a href="#" onclick="topicname('${val.id}')">
                                                 <svg  xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -361,7 +370,7 @@
 
                                 <div class="row mt-4">
                                     <div class="col-md-5">
-                                        <h6>@${val.topics.createdBy.username}</h6>
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.topics.createdBy.id]">@${val.topics.createdBy.username}</g:link><br>
                                         <g:link controller="subscription" action="unsubscribe" params="[uid:user.id,tid:val.topics.id]">Unsubscribe</g:link>
                                     </div>
                                     <div class="col-md-4">
@@ -574,8 +583,7 @@
                                     <h6>${val.createdBy.firstname} ${val.createdBy.lastname}</h6>
                                 </div>
                                 <div class="col-md-3 mt-3">
-                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">
-                            <h6>@${val.createdBy.username}</h6></g:link>
+                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]"><h6>@${val.createdBy.username}</h6></g:link>
                                 </div>
                                 <div class="col-md-5 mt-3">
                                     <g:link controller="topic" action="topicshow" params="[tid: val.topics.id]">${val.topics.topicName}</g:link>
@@ -590,11 +598,11 @@
                                 <a href= "https://${LinkResource.findByResource(val).url}" target="_blank" class="cls" >View Full Site </a>
                             </g:if>
                             <g:else>
-                                <g:link controller="resources" action="download" params="[id:val.id]">Download</g:link>
+                                <g:link controller="resources" action="download" params="[id:val.createdBy.id]">Download</g:link>
                             </g:else>
 
                             <g:link controller="resources" action="isread" params="[id: val.id]" class="cls" >Mark as Read</g:link>
-                            <g:link controller="resources" action="postview" class="cls" >View Post</g:link>
+                            <g:link controller="resources" action="postview" params="[id:val.id]" class="cls" >View Post</g:link>
                         </div>
                     </div>
                         <hr>
@@ -651,7 +659,7 @@
                     <g:textArea id="doc" name="doc" class = "input"></g:textArea>
                     <br><br>
                     <label for="topicname">Topic</label>
-                    <g:select name="topicname" optionKey="id" optionValue="topicName" from="${Topic.list()}"/>
+                    <g:select style="max-width: 220px" name="topicname" optionKey="id" optionValue="topicName" from="${Topic.list()}"/>
                     <br><br><br>
                     <input type="button" value="cancel" class="submit" style="float:right; margin-right:4px;" onclick="document.getElementById('Modal-document').style.display='none'">
                     <g:submitButton name="docupload" value="Share"  class="submit" style="float: right; margin-right: 4px;" onclick="document.getElementById('Modal-document').style.display='none'"></g:submitButton>
@@ -680,7 +688,7 @@
                     </div>
                     <div class="form-group">
                         <label for="topicname">Topic</label>
-                        <g:select name="topicname" optionKey="id" optionValue="topicName" from="${com.rxlogix.Topic.list()}"/>
+                        <g:select style="max-width: 220px" name="topicname" optionKey="id" optionValue="topicName" from="${com.rxlogix.Topic.list()}"/>
                         <br><br>
                     </div>
                     <div class="form-group">
@@ -716,10 +724,15 @@
 </div>
 
 <script>
-    $("#edittopic").click(function(){
-        $(this).css("display","block")
-    });
-
+    function mail(){
+        alert("Sorry this functionality is currently unavailable ")
+    }
+    function topicname(idname){
+        document.getElementById(idname).style.display="block";
+    }
+    function cancel(idname){
+        document.getElementById(idname).style.display="none";
+    }
     setTimeout(
         function() {
             document.getElementById("fm").style.display='none';
