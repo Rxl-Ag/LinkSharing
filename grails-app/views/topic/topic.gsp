@@ -179,7 +179,7 @@
                     <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                     <g:if test="${user.admin}">
                         <g:link controller="admin" action="users" class="dropdown-item">Users</g:link>
-                    %{--                            <g:link class="dropdown-item" href="#">Topics</g:link>--}%
+                        <g:link controller="topic" action="topiclist" class="dropdown-item">Topics</g:link>
                     %{--                            <g:link class="dropdown-item" href="#">Posts</g:link>--}%
                     </g:if>
                     <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
@@ -198,7 +198,7 @@
                     </div>
                     <div class="container col-lg-6">
                         <span>
-                            <a href="#" style="margin-left: 100px" class="py-0">View All</a>
+%{--                            <a href="#" style="margin-left: 100px" class="py-0">View All</a>--}%
                         </span>
                     </div>
                 </nav>
@@ -213,8 +213,8 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <g:link>@${topic.createdBy.username}</g:link><br>
-                                <g:if test="${com.rxlogix.Subscription.findByTopicsAndCreatedBy(topic,user)}">
-                                <g:link controller="subscription" action="unsubscribe" params="[tid:topic.id, uid:user.id]">Unsubscribe</g:link>
+                                <g:if test="${Subscription.findByTopicsAndCreatedBy(topic,user)}">
+%{--                                <g:link controller="subscription" action="unsubscribe" params="[tid:topic.id, uid:user.id]">Unsubscribe</g:link>--}%
                                 </g:if>
                                 <g:else>
                                     <g:link controller="subscription" action="subscribe" params="[tid:topic.id, uid:user.id]">Subscribe</g:link>
@@ -222,11 +222,11 @@
                             </div>
                             <div class="col-md-4">
                                 <h6 class="text-muted">Subscriptions</h6>
-                                <b>${com.rxlogix.Subscription.countByTopics(topic)}</b>
+                                <b>${Subscription.countByTopics(topic)}</b>
                             </div>
                             <div class="col-md-3">
                                 <h6 class="text-muted">Posts</h6>
-                                <b>${com.rxlogix.Resources.countByTopics(topic)}</b>
+                                <b>${Resources.countByTopics(topic)}</b>
                             </div>
                         </div>
                     </div>
@@ -238,9 +238,9 @@
                             <div class="col-md-4">
 
                                 <div class="dropdown">
-                                <g:if test="${com.rxlogix.Subscription.findByTopicsAndCreatedBy(topic,user)}">
+                                <g:if test="${Subscription.findByTopicsAndCreatedBy(topic,user)}">
                                     <g:form controller="subscription" action="changeserious">
-                                        <g:field type="hidden" name="sid" value="${topic.id}"></g:field>
+                                        <g:field type="hidden" name="sid" value="${Subscription.findByTopics(topic).id}"></g:field>
                                         <g:select onChange="submit()" name="seriousness" from="${['Serious', 'VerySerious', 'Casual']}"
                                                   value="${Subscription.findByTopics(topic).seriousness}" />
                                     </g:form>
@@ -265,7 +265,7 @@
                     </div>
                     <div class="container col-lg-6">
                         <span>
-                            <a href="#" style="margin-left: 100px" class="py-0">View All</a>
+%{--                            <a href="#" style="margin-left: 100px" class="py-0">View All</a>--}%
                         </span>
                     </div>
                 </nav>

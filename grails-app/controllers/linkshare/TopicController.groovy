@@ -38,9 +38,15 @@ class TopicController {
         Users user =session.getAttribute("usr")
         Resources resource = Resources.findById(params.rid)
         ResourceRating rt = ResourceRating.findByResourceAndUsr(resource,user)
-
+        if(rt)
+        {
+            rt.score=params.rating
+            rt.save(flush:true)
+        }
+        else {
             ResourceRating r = new ResourceRating(usr: user.id, score: params.rating, resource: params.rid)
-            r.save(flush:true, failOnError:true)
+            r.save(flush: true, failOnError: true)
+        }
 
 
         return "rating done"

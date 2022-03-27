@@ -88,17 +88,21 @@
         <div class="modal-content">
             <div class="mh">Send Invitation</div>
             <g:form>
-                <div class="container" style="padding:10px">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" class="input" id="email"><br><br><br>
-                    <label for="invitetopic">Topic</label>
-                    <select id="invitetopic" name="invitetopic" style="float:right">
-
-                    </select>
-                    <br><br><br>
-                    <input type="button" value="cancel" class="submit" style="float:right; margin-right:4px;" onclick=" document.getElementById('Modal-invite').style.display='none'">
-                    <input type="submit" value="invite" class="submit" style="float:right; margin-right:4px;" onclick=" document.getElementById('Modal-invite').style.display='none'" >
+                <div class="form-group">
+                    <div class="col-sm-2 control-label">Email</div>
+                    <div class="col-sm-10">
+                        <input type="email" name="email" required placeholder="Enter email" class="form-control col-sm-8" />
+                    </div>
                     <br><br>
+                </div>
+                <div class="form-group">
+                    <label for="topicname">Topic</label>
+                    <g:select style="max-width: 220px" name="topicname" optionKey="id" optionValue="topicName" from="${Subscription.findAllByCreatedBy(user).topics}"/>
+                    <br><br>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="cancel" class="submit" style="float:right; margin-right:4px;" onclick="document.getElementById('Modal-invite').style.display='none'">
+                    <g:submitButton name="gLinkUpload" value="Share"  class="submit" style="float: right; margin-right: 4px;" onclick="document.getElementById('Modal-invite').style.display='none'"></g:submitButton>
                 </div>
             </g:form>
         </div>

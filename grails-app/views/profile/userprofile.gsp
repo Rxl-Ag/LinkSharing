@@ -141,17 +141,17 @@
                 <input type="search" name="searchElement" placeholder="Search..." class="form-control"/>
             </g:form>
         </span>
-        <a href="#" class="icn">
+        <a href="#" class="icn" style="color: white">
             <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-chat-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('Modal-topic').style.display='block'">
                 <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"/>
             </svg>
         </a>
-        <a href="#" class="icn">
+        <a href="#" class="icn" style="color: white">
             <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-envelope-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick=" document.getElementById('Modal-invite').style.display='block'">
                 <path fill-rule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
             </svg>
         </a>
-        <a href="#" class="icn">
+        <a href="#" class="icn" style="color: white">
             <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-link-45deg" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('Modal-url').style.display='block'">
                 <path d="M4.715 6.542L3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.001 1.001 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
                 <path d="M5.712 6.96l.167-.167a1.99 1.99 0 0 1 .896-.518 1.99 1.99 0 0 1 .518-.896l.167-.167A3.004 3.004 0 0 0 6 5.499c-.22.46-.316.963-.288 1.46z"/>
@@ -159,7 +159,7 @@
                 <path d="M10 9.5a2.99 2.99 0 0 0 .288-1.46l-.167.167a1.99 1.99 0 0 1-.896.518 1.99 1.99 0 0 1-.518.896l-.167.167A3.004 3.004 0 0 0 10 9.501z"/>
             </svg>
         </a>
-        <a href="#" class="icn">
+        <a href="#" class="icn" style="color: white">
             <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-file-earmark-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('Modal-document').style.display='block'">
                 <path d="M9 1H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h5v-1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h5v2.5A1.5 1.5 0 0 0 10.5 6H13v2h1V6L9 1z"/>
                 <path fill-rule="evenodd" d="M13.5 10a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13v-1.5a.5.5 0 0 1 .5-.5z"/>
@@ -180,7 +180,7 @@
                     <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                     <g:if test="${user.admin}">
                         <g:link controller="admin" action="users" class="dropdown-item">Users</g:link>
-                    %{--                            <g:link class="dropdown-item" href="#">Topics</g:link>--}%
+                        <g:link controller="topic" action="topiclist" class="dropdown-item">Topics</g:link>
                     %{--                            <g:link class="dropdown-item" href="#">Posts</g:link>--}%
                     </g:if>
                     <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>

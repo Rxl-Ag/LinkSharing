@@ -19,7 +19,6 @@ class DashboardService {
         for (int i = 0; i<subscriptionList.size()&&5; i++) {
             subslist.add(subscriptionList.get(i))
         }
-
         return subslist
     }
 
@@ -32,7 +31,6 @@ class DashboardService {
         for (int i = 0; i <topiclist.size()&&5; i++) {
             topicList.add(topiclist.get(i))
         }
-
         return topicList
     }
 }

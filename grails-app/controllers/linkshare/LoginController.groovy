@@ -79,8 +79,8 @@ class LoginController {
         Users user = Users.findByEmail(params.email)
         if(user){
             if(params.password== params.confirmpassword){
-                user.password= params.pass
-                user.confirmpassword= user.password
+                user.password= params.password
+                user.confirmpassword= params.confirmpassword
                 user.save(flush: true)
                 flash.message3 = "Password Changed"
                 render(view: "/index")

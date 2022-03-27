@@ -24,7 +24,7 @@ class SubscriptionController {
     }
 
     def changeserious(){
-        println(params)
+//        println(params)
         subscriptionService.seriousness(params)
         redirect(controller: "dashboard", action: "dash")
     }

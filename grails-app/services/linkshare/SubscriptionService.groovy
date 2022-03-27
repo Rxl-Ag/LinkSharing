@@ -12,8 +12,7 @@ class SubscriptionService {
     }
     def seriousness(params) {
 
-        Subscription subscription = Subscription.get(params.sid)
-        println(subscription)
+        Subscription subscription = Subscription.findById(params.sid)
         if (params.seriousness=="VerySerious")
             subscription.seriousness = subscription.seriousness.VerySerious
         else if (params.seriousness=="Serious")

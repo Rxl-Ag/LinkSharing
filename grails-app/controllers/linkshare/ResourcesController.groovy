@@ -4,10 +4,11 @@ import com.rxlogix.Document
 import com.rxlogix.LinkResource
 import com.rxlogix.ReadingItem
 import com.rxlogix.Resources
+import com.rxlogix.Subscription
 import com.rxlogix.Users
 
 class ResourcesController {
-
+    def dashboardService
     def index() { }
 
     def createlinkresource(){
@@ -42,7 +43,9 @@ class ResourcesController {
     def postview(){
         Users user= session.getAttribute("usr")
         Resources resource = Resources.findById(params.id)
-        render(view: "post", model: [user:user, resource: resource])
+        Users user1 = Users.findById(resource.createdBy.id)
+        List topiclist = dashboardService.topics()
+        render(view: "post", model: [user:user, resource: resource, user1:user1, topiclist:topiclist])
     }
     def isread(){
         Users user = session.getAttribute("usr")
@@ -67,6 +70,19 @@ class ResourcesController {
             //handle file not found messages.
         }
         redirect(controller: 'dashboard', action: "dash")
+    }
+    def deletepost(){
+        Resources resource = Resources.findById(params.id)
+        def linklist = LinkResource.findAllByResource(resource)
+        def doclist = Document.findAllByResource(resource)
+        linklist.each { r ->
+                LinkResource.findById(r.id).delete(flush: true)
+        }
+        doclist.each { doc ->
+                Document.findById(doc.id).delete(flush: true)
+        }
+        resource.delete(flush:true)
+        redirect(controller: "dashboard", action: "dash")
     }
 
 }

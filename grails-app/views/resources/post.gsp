@@ -1,3 +1,4 @@
+<%@ page import="com.rxlogix.LinkResource; com.rxlogix.Subscription; com.rxlogix.Topic" %>
 <%--
   Created by IntelliJ IDEA.
   User: anurag
@@ -165,7 +166,17 @@
         content: '\f006';
         font-family: FontAwesome
     }
+    .d2 {
+        border: 2px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+        max-height: 300px;
+        overflow: scroll;
 
+    }
+    .edittopic{
+        display: none;
+    }
     </style>
 
 </head>
@@ -220,7 +231,7 @@
                     <g:link controller="profile" action="editprofile" class="dropdown-item">Profile</g:link>
                     <g:if test="${user.admin}">
                         <g:link controller="admin" action="users" class="dropdown-item">Users</g:link>
-                    %{--                            <g:link class="dropdown-item" href="#">Topics</g:link>--}%
+                        <g:link controller="topic" action="topiclist" class="dropdown-item">Topics</g:link>
                     %{--                            <g:link class="dropdown-item" href="#">Posts</g:link>--}%
                     </g:if>
                     <g:link controller="login" action="logout" class="dropdown-item">Log Out</g:link>
@@ -231,7 +242,7 @@
 </nav>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="d1 mt-5">
                 <nav class="navbar navbar-light " style="padding-top: 0px; padding-bottom: 0px; min-height: 40px">
                     <div class="container col-lg-6">
@@ -254,7 +265,7 @@
                         <div class="row">
                             <div class="col-md-4 mt-3" >
                                 <h6>${resource.createdBy.firstname} ${resource.createdBy.lastname}</h6>
-                                <g:link controller="profile" action="userprofile" params="[uid:user.id]"><h6>@${resource.createdBy.username}</h6></g:link>
+                                <g:link controller="profile" action="userprofile" params="[uid:user1.id]"><h6>@${resource.createdBy.username}</h6></g:link>
                             </div>
                             <div class="col-md-3 mt-3">
                             </div>
@@ -281,7 +292,7 @@
                             </div>
                         </div>
                     </div>
-                    <h6>Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</h6>
+                    <h6>${resource.description}</h6>
 
                     <div class="row mt-1">
                         <div class="col-md-1 "></div>
@@ -290,13 +301,17 @@
                             <a href="#" class="fa fa-twitter"></a>
                             <a href="#" class="fa fa-google"></a>
                         </div>
-%{--                        <div class="col-md-8">--}%
-%{--                            <g:link class="cls" >Delete</g:link>--}%
+                        <div class="col-md-8">
+                            <g:link controller="resources" action="deletepost" params="[id:resource.id]" class="cls" >Delete</g:link>
 %{--                            <g:link class="cls" >Edit</g:link>--}%
-%{--                            <g:link class="cls" >Download</g:link>--}%
-%{--                            <g:link class="cls" >View Full Site </g:link>--}%
+                            <g:if test="${LinkResource.findByResource(resource)}">
+                                <a href= "https://${LinkResource.findByResource(resource).url}" target="_blank" class="cls" >View Full Site </a>
+                            </g:if>
+                            <g:else>
+                                <g:link controller="resources" action="download" params="[id:resource.createdBy.id]">Download</g:link>
+                            </g:else>
 
-%{--                        </div>--}%
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,11 +319,192 @@
         <div class="col-md-1">
 
         </div>
-        <div class="col-md-6">
+        <div class ="col-md-5">
+            <div class="d2 mt-5">
+                <nav class="navbar navbar-light" style="padding-top: 0px; padding-bottom: 0px; min-height: 30px">
+                    <div class="container col-lg-6">
+                        <a class="navbar-brand py-0" href="#" style="margin-right: 10px">Trending Topics</a>
+                    </div>
+                    <div class="col-lg -6"></div>
+                </nav>
+                <g:each in="${topiclist}" var="val">
+                    <g:if test="${com.rxlogix.Topic.findByCreatedByAndId(user,val.id)}">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <g:if test="${val.createdBy.userImage}">
+                                    <asset:image src="${val.createdBy.id}.png" class="img-fluid rounded-start" alt="..." />
+                                </g:if>
+                                <g:else>
+                                    <img src="data:image/jpeg;base64,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" class="img-fluid rounded-start" alt="...">
+                                </g:else>
+                            </div>
+                            <div class="col-md-9" style="margin-top: 30px">
+                                <div class="topicnamedit">
+                                    <g:link controller="topic" action="topicshow" params="[tid: val.id]">${val.topicName}</g:link>
+                                </div>
+                                <g:form controller="topic" action="editname" params="[tid:val.id]">
+                                    <div id="${val.id}" class="edittopic">
+                                        <input type="text" name="topicname" style="margin-right: 5px; width: 30%;">
+                                        <g:submitButton name="Submit" value="save"/>
+                                        <input onclick="cancel('${val.id}')" type="button" value="cancel" class="submit" style="margin-right: 4px;">
+                                    </div>
+                                </g:form>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">@${val.createdBy.username}</h6></g:link>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-muted">Subscriptions</h6>
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">${com.rxlogix.Subscription.countByTopics(val)}</g:link>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="text-muted">Posts</h6>
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">${com.rxlogix.Resources.countByTopics(val)}</g:link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="container spacing">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <g:form controller="subscription" action="changeserious">
+                                            <g:field type="hidden" name="sid" value="${Subscription.findByTopics(val).id}"></g:field>
+                                            <g:select onChange="submit()" name="seriousness" from="${['Serious', 'VerySerious', 'Casual']}"
+                                                      value="${Subscription.findByTopics(val).seriousness}" />
+                                        </g:form>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <g:form controller="subscription" action="changevisibility">
+                                            <g:field type="hidden" name="tid" value="${val.id}"></g:field>
+                                            <g:select onChange="submit()" name="visibility" from="${['Public','Private']}"
+                                                      value="${val.visibility}" />
+                                        </g:form>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a href="#" >
+                                            <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-envelope-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('specific-invitation-').style.display='block'">
+                                                <path fill-rule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0  1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
 
+                                    <div class="col-md-1">
+                                        <svg style="color: #003a8f; cursor: pointer"  onclick="topicname('${val.id}')" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <g:link controller="topic" action="deletetopic" params="[id: val.id]">
+                                            <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </g:link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                    </g:if>
+                    <g:else>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <g:if test="${val.createdBy.userImage}">
+                                    <asset:image src="${val.createdBy.id}.png" class="img-fluid rounded-start" alt="..." />
+                                </g:if>
+                                <g:else>
+                                    <img src="data:image/jpeg;base64,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" class="img-fluid rounded-start" alt="...">
+                                </g:else>
+                            </div>
+                            <div class="col-md-9" style="margin-top: 30px">
+                                <div id="oldtopic" class="topicnamedit">
+                                    <g:link controller="topic" action="topicshow" params="[tid: val.id]">${val.topicName}</g:link>
+                                </div>
+                                <g:form controller="topic" action="editname" params="[tid:val.id]">
+                                    <div id="${val.id}" class="edittopic">
+                                        <input type="text" name="topicname" style="margin-right: 5px; width: 30%;">
+                                        <g:submitButton name="Submit" value="save"/>
+                                        <input onclick="cancel('${val.id}')" type="button" value="cancel" class="submit" style="margin-right: 4px;">
+                                    </div>
+                                </g:form>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">
+                                            <h6>@${val.createdBy.username}</h6></g:link>
+
+                                        <g:if test="${com.rxlogix.Subscription.findByCreatedByAndTopics(user,val)}">
+                                            <g:link controller="subscription" action="unsubscribe" params="[uid:user.id,tid:val.id]">Unsubscribe</g:link>
+                                        </g:if>
+                                        <g:else>
+                                            <g:link controller="subscription" action="subscribe" params="[uid:user.id,tid:val.id]">Subscribe</g:link>
+                                        </g:else>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h6 class="text-muted">Subscriptions</h6>
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">${com.rxlogix.Subscription.countByTopics(val)}</g:link>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6 class="text-muted">Posts</h6>
+                                        <g:link controller="profile" action="userprofile" params="[uid:val.createdBy.id]">${com.rxlogix.Resources.countByTopics(val)}</g:link>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <g:if test="${user.admin}">
+                            <div class="container">
+                                <div class="container spacing">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <g:form controller="subscription" action="changeserious">
+                                                <g:field type="hidden" name="sid" value="${Subscription.findByTopics(val).id}"></g:field>
+                                                <g:select onChange="submit()" name="seriousness" from="${['Serious', 'VerySerious', 'Casual']}"
+                                                          value="${Subscription.findByTopics(val).seriousness}" />
+                                            </g:form>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <g:form controller="subscription" action="changevisibility">
+                                                <g:field type="hidden" name="tid" value="${val.id}"></g:field>
+                                                <g:select onChange="submit()" name="visibility" from="${['Public','Private']}"
+                                                          value="${val.visibility}" />
+                                            </g:form>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <a href="#" >
+                                                <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-envelope-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  onclick="document.getElementById('specific-invitation-').style.display='block'">
+                                                    <path fill-rule="evenodd" d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0  1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <svg style="color: #003a8f; cursor: pointer"  onclick="topicname('${val.id}')" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <g:link controller="topic" action="deletetopic" params="[id: val.id]">
+                                                <svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                </svg>
+                                            </g:link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </g:if>
+                        <hr>
+                    </g:else>
+                </g:each>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -333,6 +529,22 @@
             });
         });
     }
+</script>
+<script>
+    function mail(){
+        alert("Sorry this functionality is currently unavailable ")
+    }
+    function topicname(idname){
+        document.getElementById(idname).style.display="block";
+    }
+    function cancel(idname){
+        document.getElementById(idname).style.display="none";
+    }
+    setTimeout(
+        function() {
+            document.getElementById("fm").style.display='none';
+        }, 3000
+    );
 </script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
