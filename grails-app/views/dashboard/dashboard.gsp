@@ -260,7 +260,7 @@
                         </div>
                     </nav>
                     <div>
-                    <g:each in="${Subscription.findAllByCreatedBy(user)}" var="val">
+                    <g:each in="${subslist}" var="val">
                         <g:if test="${val.createdBy == val.topics.createdBy}">
                             <div class="row">
                                 <div class="col-md-3">
@@ -405,8 +405,8 @@
                         </div>
                         <div class="col-lg -6"></div>
                     </nav>
-                        <g:each in="${com.rxlogix.Topic.list(max:5)}" var="val">
-                            <g:if test="${com.rxlogix.Topic.findByCreatedByAndId(user,val.id)}">
+                        <g:each in="${topiclist}" var="val">
+                            <g:if test="${Topic.findByCreatedByAndId(user,val.id) || user.admin}">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <g:if test="${val.createdBy.userImage}">

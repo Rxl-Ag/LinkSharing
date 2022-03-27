@@ -1,5 +1,6 @@
 package linkshare
 
+import com.rxlogix.Document
 import com.rxlogix.LinkResource
 import com.rxlogix.ResourceRating
 import com.rxlogix.Resources
@@ -47,8 +48,24 @@ class TopicController {
     }
 
     def deletetopic(){
-        Users user= session.getAttribute("usr")
+
         Topic topic= Topic.findById(params.id)
+        List<Subscription> subscription = Subscription.findAllByTopics(topic)
+        List<Resources> resource = Resources.findAllByTopics(topic)
+
+        resource.each { r ->
+            if(LinkResource.findByResource(r)) {
+                LinkResource.findByResource(r).delete(flush: true)
+            }
+            if(Document.findByResource(r)) {
+                Document.findByResource(r).delete(flush: true)
+            }
+            Resources.findById(r.id).delete(flush: true)
+        }
+        subscription.each { s ->
+            Subscription.findById(s.id).delete(flush: true)
+        }
+
         topic.delete(flush: true, failOnError: true)
 
         redirect(controller: "dashboard", action: "dash")
@@ -67,8 +84,24 @@ class TopicController {
     }
 
     def topicdelete(){
-        Topic topic = Topic.findById(params.tid)
-        topic.delete(flush: true)
+        Topic topic= Topic.findById(params.tid)
+        List<Subscription> subscription = Subscription.findAllByTopics(topic)
+        List<Resources> resource = Resources.findAllByTopics(topic)
+
+        resource.each { r ->
+            if(LinkResource.findByResource(r)) {
+                LinkResource.findByResource(r).delete(flush: true)
+            }
+            if(Document.findByResource(r)) {
+                Document.findByResource(r).delete(flush: true)
+            }
+            Resources.findById(r.id).delete(flush: true)
+        }
+        subscription.each { s ->
+            Subscription.findById(s.id).delete(flush: true)
+        }
+
+        topic.delete(flush: true, failOnError: true)
         redirect(action: "topiclist")
     }
 
