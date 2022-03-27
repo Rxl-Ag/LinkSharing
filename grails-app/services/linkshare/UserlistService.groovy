@@ -15,22 +15,26 @@ class UserlistService {
     }
     def makeAdmin(String email) {
         Users user = Users.findByEmail(email)
+        if(user.id!=1) {
             if (user.admin) {
                 user.admin = false
             } else {
                 user.admin = true
             }
+        }
         user.save(failOnError: true, flush: true)
         return user
     }
     def activateOrDeactivate(String email) {
         Users user = Users.findByEmail(email)
+        if(user.id!=1) {
             if (user.active) {
                 user.active = false
             } else {
                 user.active = true
             }
-        user.save(failOnError: true, flush: true)
+            user.save(failOnError: true, flush: true)
+        }
         return user
     }
 }

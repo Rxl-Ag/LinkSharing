@@ -5,17 +5,17 @@
   Time: 8:28 PM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.rxlogix.Users" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>User List</title>
+    <title>Topic List</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-%{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--}%
-%{--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">--}%
-%{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">--}%
+    %{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--}%
+    %{--    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">--}%
+    %{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">--}%
 
 
 </head>
@@ -24,9 +24,9 @@
 
 <style>
 
-    #table_id_wrapper{
-        background-color: #a5a3a3;
-    }
+#table_id_wrapper{
+    background-color: #a5a3a3;
+}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -85,7 +85,7 @@ input[type= search]{
 <nav class="navbar sticky-top nav1">
     <div class="container col-lg-6">
         <g:link class="navbar-brand" style="color: white" controller="dashboard" action="dash">Link Sharing</g:link>    </div>
-    </div>
+</div>
     <div class="container col-lg-6">
         <span style="margin-left: 250px">
             <i class="fa fa-search icon"></i>
@@ -146,45 +146,21 @@ input[type= search]{
     <thead>
     <tr>
         <th>Id</th>
+        <th>Topicname</th>
         <th>Username</th>
-        <th>Email</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>Active</th>
-        <th></th>
-        <th>Admin</th>
-        <th></th>
+        <th>Visibility</th>
+        <th>Manage</th>
     </tr>
     </thead>
     <tbody>
-    <g:each var="user" in="${userlist}">
+    <g:each  in="${com.rxlogix.Topic.list()}" var="topic">
         <tr>
-            <td>${user.id}</td>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.firstname}</td>
-            <td>${user.lastname}</td>
-            <td>${user.active}</td>
+            <td>${topic.id}</td>
+            <td>${topic.topicName}</td>
+            <td>${topic.createdBy.username}</td>
+            <td>${topic.visibility}</td>
             <td>
-                <button class="btn">
-                    <g:if test="${user.active}">
-                        <g:link controller="admin" action="active" params="${[email: user.email]}">Deactivate</g:link>
-                    </g:if>
-                    <g:else>
-                        <g:link controller="admin" action="active" params="${[email: user.email]}">Activate</g:link>
-                    </g:else>
-                </button>
-            </td>
-            <td>${user.admin}</td>
-            <td>
-                <button class="btn ">
-                    <g:if test="${user.admin}">
-                        <g:link controller="admin" action="makeAdmin" params="[email: user.email]">Normal</g:link>
-                    </g:if>
-                    <g:else>
-                        <g:link controller="admin" action="makeAdmin" params="[email: user.email]">Admin</g:link>
-                    </g:else>
-                </button>
+                <g:link controller="topic" action="topicdelete" params="${[tid: topic.id]}">Delete</g:link>
             </td>
         </tr>
     </g:each>

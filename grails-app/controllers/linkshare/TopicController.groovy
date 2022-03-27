@@ -34,16 +34,22 @@ class TopicController {
         redirect(controller: 'dashboard', action: "dash")
     }
     def rating(){
-        Resources rating = Resources.findById(params.rid)
         Users user =session.getAttribute("usr")
-        
+        Resources resource = Resources.findById(params.rid)
+        ResourceRating rt = ResourceRating.findByResourceAndUsr(resource,user)
+
+            ResourceRating r = new ResourceRating(usr: user.id, score: params.rating, resource: params.rid)
+            r.save(flush:true, failOnError:true)
+
+
+        return "rating done"
 //        redirect(controller: "resources",action: "postview")
     }
 
     def deletetopic(){
         Users user= session.getAttribute("usr")
         Topic topic= Topic.findById(params.id)
-        topic.delete(flush: true)
+        topic.delete(flush: true, failOnError: true)
 
         redirect(controller: "dashboard", action: "dash")
     }
@@ -55,5 +61,15 @@ class TopicController {
         redirect(controller: "dashboard", action: "dash")
     }
 
+    def topiclist(){
+        Users user = session.getAttribute("usr")
+        render(view: "alltopic", model:[user:user])
+    }
+
+    def topicdelete(){
+        Topic topic = Topic.findById(params.tid)
+        topic.delete(flush: true)
+        redirect(action: "topiclist")
+    }
 
 }

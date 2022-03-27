@@ -1,6 +1,7 @@
 package linkshare
 
 import com.rxlogix.Users
+import grails.converters.JSON
 
 class LoginController {
 
@@ -13,13 +14,19 @@ class LoginController {
         if(Users.findByEmail(params.logemail) )
         {
             Users t = Users.findByEmail(params.logemail)
-            session.setAttribute("usr", t)
-            if (t.password==params.logpassword) {
-                redirect(controller: 'dashboard', action: "dash")
+            if(t.active==false)
+            {
+                flash.message = "login failed!"
+                redirect(action : "login")
             }
             else {
-                flash.message = "password not match!"
-                redirect(action: "login")
+                session.setAttribute("usr", t)
+                if (t.password == params.logpassword) {
+                    redirect(controller: 'dashboard', action: "dash")
+                } else {
+                    flash.message = "password not match!"
+                    redirect(action: "login")
+                }
             }
         }
         else{
@@ -32,8 +39,8 @@ class LoginController {
             if (!Users.findByUsername(params.username)) {
                 if (params.get("password") == params.get("confirmpassword")) {
                     def file = request.getFile("userImage")
-                    String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${params.username}.png"
-                    String path = "${params.username}.png"
+                    String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${params.id}.png"
+                    String path = "${params.id}.png"
                         if (file && !file.empty) {
                             file.transferTo(new File(filepath))
 
@@ -44,19 +51,19 @@ class LoginController {
                     Users test = new Users(firstname: params.firstname, lastname: params.lastname, email: params.email, username: params.username, password: params.password, confirmpassword: params.confirmpassword, admin: false, active: true, userImage: path)
 
                     test.save flush: true
-                    flash.message = "user created!"
+                    flash.message1 = "user created!"
                     redirect(action: "login")
                 } else {
-                    flash.message = "password and confirm password Do not match!"
+                    flash.message1 = "password and confirm password Do not match!"
                     redirect(action: "login")
                 }
 
             } else {
-                flash.message = "UserName Already Exists!"
+                flash.message1 = "UserName Already Exists!"
                 redirect(action: "login")
             }
         } else {
-            flash.message = "Email already Exists"
+            flash.message1 = "Email already Exists"
             redirect(action: "login")
         }
     }
@@ -64,5 +71,28 @@ class LoginController {
     {
         session.invalidate()
         redirect(action : "login")
+    }
+    def password(){
+        render(view: "/forgetPassword")
+    }
+    def forgotpassword(){
+        Users user = Users.findByEmail(params.email)
+        if(user){
+            if(params.password== params.confirmpassword){
+                user.password= params.pass
+                user.confirmpassword= user.password
+                user.save(flush: true)
+                flash.message3 = "Password Changed"
+                render(view: "/index")
+            }
+            else{
+                flash.message = "password and confirm password Do not match!"
+                render(view: "/forgetPassword")
+            }
+        }
+        else{
+            flash.message = "Wrong Email"
+            render(view: "/forgetPassword")
+        }
     }
 }

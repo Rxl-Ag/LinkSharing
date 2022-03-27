@@ -80,9 +80,9 @@ body {
 
 </style>
 
-<g:if test="${flash.message}">
+<g:if test="${flash.message3}">
     <div class="alert alert-success alert-dismissible fade show" id="fm" role="alert">
-        <strong>${flash.message}!</strong>
+        <strong>${flash.message3}!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </g:if>
@@ -126,7 +126,7 @@ body {
                                     <a href="#" class="fa fa-google"></a>
                                 </div>
                                 <div class="col-md-3">
-                                    <g:link controller="resources" action="postview">View Post</g:link>
+%{--                                    <g:link controller="resources" action="postview">View Post</g:link>--}%
                                 </div>
                             </div>
                         </div>
@@ -147,7 +147,7 @@ body {
                                     <a href="#" class="fa fa-google"></a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">View Post</a>
+%{--                                    <a href="#">View Post</a>--}%
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,7 @@ body {
                                     <a href="#" class="fa fa-google"></a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">View Post</a>
+%{--                                    <a href="#">View Post</a>--}%
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@ body {
                                     <a href="#" class="fa fa-google"></a>
                                 </div>
                                 <div class="col-md-3">
-                                    <a href="#">View Post</a>
+%{--                                    <a href="#">View Post</a>--}%
                                 </div>
                             </div>
                         </div>
@@ -206,6 +206,14 @@ body {
             <div class="login-form">
                 <g:form name="myForm" url="[controller:'login',action:'log']">
                     <h2 class="text-center">Log in</h2>
+                    <div>
+                    <g:if test="${flash.message}">
+                        <div class="alert alert-success alert-dismissible fade show" id="fm" role="alert">
+                            <strong>${flash.message}!</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </g:if>
+                    </div>
                     <div class="form-group">
                         <label for="logemail">Email Id</label>
                         <g:textField required="required" name="logemail" id="logemail"  />
@@ -218,13 +226,21 @@ body {
                         <g:submitButton name="Submit" id="submit" value="Log In"/>
                     </div>
                     <div class="clearfix">
-                        <a href="#" class="float-right">Forgot Password?</a>
+                        <g:link controller="login" action="password" class="float-right">Forgot Password?</g:link>
                     </div>
                 </g:form>
             </div>
             <div class="login-form">
                 <g:uploadForm name="myForm" url="[controller:'login',action:'register']">
                     <h2 class="text-center">Register</h2>
+                    <div>
+                        <g:if test="${flash.message1}">
+                            <div class="alert alert-success alert-dismissible fade show" id="fm" role="alert">
+                                <strong>${flash.message1}!</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </g:if>
+                    </div>
                     <div class="form-group">
                         <label for="firstname">First Name</label>
                         <g:textField required="required" name="firstname" id="firstname" />
