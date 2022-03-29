@@ -1,11 +1,15 @@
 package linkshare
 
+import com.rxlogix.Resources
+import com.rxlogix.Topic
 import com.rxlogix.Users
 import grails.converters.JSON
 
 class LoginController {
 
-    def index() { }
+    def index() {
+
+    }
     def login(){
         render(view: "/index")
     }
@@ -14,7 +18,7 @@ class LoginController {
         if(Users.findByEmail(params.logemail) )
         {
             Users t = Users.findByEmail(params.logemail)
-            if(t.active==false)
+            if(!t.active)
             {
                 flash.message = "login failed!"
                 redirect(action : "login")
@@ -39,11 +43,10 @@ class LoginController {
             if (!Users.findByUsername(params.username)) {
                 if (params.get("password") == params.get("confirmpassword")) {
                     def file = request.getFile("userImage")
-                    String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${params.id}.png"
-                    String path = "${params.id}.png"
+                    String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${params.email}.png"
+                    String path = "${params.email}.png"
                         if (file && !file.empty) {
                             file.transferTo(new File(filepath))
-
                         }
                         else {
                             path=null

@@ -12,7 +12,18 @@ class ProfileController {
     def updateprofile(){
 
         Users user = Users.findById(params.uid)
-        user.properties = params
+
+        def file = request.getFile("userImage")
+        String filepath = "/home/anurag/grailsapp/linkshare/grails-app/assets/images/${user.email}.png"
+        String path = "${user.email}.png"
+        if (file && !file.empty) {
+            file.transferTo(new File(filepath))
+        }
+
+        user.firstname = params.firstname
+        user.lastname = params.lastname
+        user.username = params.username
+        user.userImage = path
 
         if(user.save(flush:true)){
             flash.message= "profile updated"

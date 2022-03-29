@@ -87,7 +87,7 @@
     <div id="Modal-invite" class="modal">
         <div class="modal-content">
             <div class="mh">Send Invitation</div>
-            <g:form>
+            <g:form controller="dashboard" action="invitation">
                 <div class="form-group">
                     <div class="col-sm-2 control-label">Email</div>
                     <div class="col-sm-10">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="form-group">
                     <input type="button" value="cancel" class="submit" style="float:right; margin-right:4px;" onclick="document.getElementById('Modal-invite').style.display='none'">
-                    <g:submitButton name="gLinkUpload" value="Share"  class="submit" style="float: right; margin-right: 4px;" onclick="document.getElementById('Modal-invite').style.display='none'"></g:submitButton>
+                    <g:submitButton name="gLinkUpload" value="Send"  class="submit" style="float: right; margin-right: 4px;" onclick="document.getElementById('Modal-invite').style.display='none'"></g:submitButton>
                 </div>
             </g:form>
         </div>

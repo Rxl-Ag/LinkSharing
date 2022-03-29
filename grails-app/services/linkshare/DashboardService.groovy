@@ -23,7 +23,7 @@ class DashboardService {
     }
 
     def topics() {
-        List<Topic> topiclist = Topic.createCriteria().list(max:5) {
+        List<Topic> topiclist = Topic.createCriteria().list() {
             eq('visibility', Topic.Visibility.Public)
         }
         topiclist.sort { a, b -> b.resources.size() <=> a.resources.size() }

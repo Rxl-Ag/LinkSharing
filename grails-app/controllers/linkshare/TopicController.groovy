@@ -7,6 +7,7 @@ import com.rxlogix.Resources
 import com.rxlogix.Subscription
 import com.rxlogix.Topic
 import com.rxlogix.Users
+import grails.converters.JSON
 
 class TopicController {
 
@@ -40,17 +41,14 @@ class TopicController {
         ResourceRating rt = ResourceRating.findByResourceAndUsr(resource,user)
         if(rt)
         {
-            rt.score=params.rating
+            rt.score=params.rating as Integer
             rt.save(flush:true)
         }
         else {
-            ResourceRating r = new ResourceRating(usr: user.id, score: params.rating, resource: params.rid)
+            ResourceRating r = new ResourceRating(usr: user.id, score: params.rating as Integer, resource: params.rid)
             r.save(flush: true, failOnError: true)
         }
-
-
-        return "rating done"
-//        redirect(controller: "resources",action: "postview")
+        render(["name":"Anurag"] as JSON);
     }
 
     def deletetopic(){
